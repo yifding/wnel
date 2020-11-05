@@ -1,0 +1,2 @@
+# conda install pytorch=0.4
+python-Levenshtein==python-Levenshtein
