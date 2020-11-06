@@ -329,6 +329,11 @@ class CoNLLDataset:
         self.wikipedia = read_csv_file(path + '/wned-wikipedia.csv')
         self.wikipedia.pop('Jiří_Třanovský Jiří_Třanovský', None)  # unknown problem with this
 
+        # **YD** add reddit dataset
+        self.reddit2020gold = read_csv_file(path + '/wned-reddit2020gold.csv')
+        self.reddit2020silver = read_csv_file(path + '/wned-reddit2020silver.csv')
+        self.reddit2020g_s = read_csv_file(path + '/wned-reddit2020g_s.csv')
+
         print('process coref')
         person_names = load_person_names(person_path)
         with_coref(self.train, person_names)
@@ -340,7 +345,15 @@ class CoNLLDataset:
         with_coref(self.msnbc, person_names)
         with_coref(self.wikipedia, person_names)
 
+        # **YD** add reddit dataset
+        with_coref(self.reddit2020gold, person_names)
+        with_coref(self.reddit2020silver, person_names)
+        with_coref(self.reddit2020g_s, person_names)
+
+        # **YD** ignore conll file by now
+        """
         print('load conll')
+        
         read_conll_file(self.train, conll_path + '/AIDA/aida_train.txt')
         read_conll_file(self.testA, conll_path + '/AIDA/testa_testb_aggregate_original', ner_path=conll_path + '/AIDA/testa.ner')
         read_conll_file(self.testB, conll_path + '/AIDA/testa_testb_aggregate_original')
@@ -349,6 +362,7 @@ class CoNLLDataset:
         read_conll_file(self.msnbc, conll_path + '/wned-datasets/msnbc/msnbc.conll')
         read_conll_file(self.clueweb, conll_path + '/wned-datasets/clueweb/clueweb.conll')
         read_conll_file(self.wikipedia, conll_path + '/wned-datasets/wikipedia/wikipedia.conll')
+        """
 
     @staticmethod
     def load_file(conll_path, cand_path, person_path):
@@ -358,8 +372,11 @@ class CoNLLDataset:
         data = read_csv_file(cand_path)
         with_coref(data, person_names)
 
+        # **YD** ignore conll file by now
+        """
         print('load conll')
         read_conll_file(data, conll_path)
+        """
         return data
 
 if __name__ == "__main__":
