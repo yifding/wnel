@@ -626,6 +626,8 @@ class EDRanker:
                                 for doc in data:
                                     cats += [m['raw']['conll_m']['cat'] for m in doc]
 
+                            # **YD** change output of D.eval to include prec, rec and f1
+                            """
                             if cats is None:
                                 f1 = D.eval(org_dev_datasets[di][1], predictions)
                             else:
@@ -633,6 +635,14 @@ class EDRanker:
                             #print(alpha, beta, gamma, dname, utils.tokgreen('micro F1: ' + str(f1)))
                             print(dname, utils.tokgreen('micro F1: ' + str(f1)))
                             results += dname + '\t' + utils.tokgreen('micro F1: ' + str(f1)) + '\n'
+                            """
+
+                            if cats is None:
+                                f1, out_s = D.eval(org_dev_datasets[di][1], predictions)
+                            else:
+                                f1, out_s = D.eval(org_dev_datasets[di][1], predictions, cats)
+                            print(dname, utils.tokgreen(out_s))
+                            results = dname + '\t' + utils.tokgreen(out_s) + '\n'
 
                         if dname == 'aida-A':
                             dev_f1 = f1

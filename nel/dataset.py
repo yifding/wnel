@@ -309,7 +309,11 @@ def eval(testset, system_pred, cats=None):
     for c in cat_total.keys():
         tab[c] = cat_correct[c] / cat_total[c]
 
-    return f1   # TODO: if org_cats is None else f1, tab
+    # **YD** report precision, recall and f1 as an extra string in the end.
+    out_s = 'pre: ' + '{}'.format(precision) + ' rec: ' + '{}'.format(recall) + ' f1: ' + '{}'.format(f1)
+
+    #return f1   # TODO: if org_cats is None else f1, tab
+    return f1, out_s
 
 
 class CoNLLDataset:
@@ -350,8 +354,6 @@ class CoNLLDataset:
         with_coref(self.reddit2020silver, person_names)
         with_coref(self.reddit2020g_s, person_names)
 
-        # **YD** ignore conll file by now
-        """
         print('load conll')
         
         read_conll_file(self.train, conll_path + '/AIDA/aida_train.txt')
@@ -362,7 +364,11 @@ class CoNLLDataset:
         read_conll_file(self.msnbc, conll_path + '/wned-datasets/msnbc/msnbc.conll')
         read_conll_file(self.clueweb, conll_path + '/wned-datasets/clueweb/clueweb.conll')
         read_conll_file(self.wikipedia, conll_path + '/wned-datasets/wikipedia/wikipedia.conll')
-        """
+
+        # **YD** ignore conll file for reddit data
+        # read_conll_file(self.reddit2020gold, conll_path + '/wned-datasets/reddit2020gold/reddit2020gold.conll')
+        # read_conll_file(self.reddit2020silver, conll_path + '/wned-datasets/reddit2020silver/reddit2020silver.conll')
+        # read_conll_file(self.reddit2020g_s, conll_path + '/wned-datasets/reddit2020g_s/reddit2020g_s.conll')
 
     @staticmethod
     def load_file(conll_path, cand_path, person_path):
@@ -372,11 +378,15 @@ class CoNLLDataset:
         data = read_csv_file(cand_path)
         with_coref(data, person_names)
 
-        # **YD** ignore conll file by now
+        # **YD** ignore conll file for reddit data
         """
         print('load conll')
         read_conll_file(data, conll_path)
         """
+        if 'reddit' not in conll_path:
+            print('load conll')
+            read_conll_file(data, conll_path)
+
         return data
 
 if __name__ == "__main__":

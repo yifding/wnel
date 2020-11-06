@@ -279,7 +279,13 @@ if __name__ == "__main__":
         for di, (dname, data, preranked) in enumerate(dev_datasets):
             ranker.model._coh_ctx_vecs = []
             predictions = ranker.predict(preranked)
+
+            # **YD** change output of D.eval to include prec, rec and f1
+            """
             print(dname, utils.tokgreen('micro F1: ' + str(D.eval(data, predictions))))
+            """
+            f1, out_s = D.eval(data, predictions)
+            print(dname, utils.tokgreen(out_s))
 
     elif args.mode == 'ed':
         with open(args.filelist, 'r') as flist:
