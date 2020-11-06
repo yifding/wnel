@@ -605,6 +605,7 @@ class EDRanker:
                     results = ''
                     for di, (dname, data) in enumerate(dev_datasets):
                         #if dname == 'aida-A': #dname != '':
+
                         if dname != '':
                             #a = 0.1
                             #b = 1.
@@ -617,10 +618,14 @@ class EDRanker:
                             #gamma = c
                             predictions = self.predict(data, n_best=n_best)
                             cats = None
-                            if 'cat' in data[0][0]['raw']['conll_m']:
+
+                            # **YD** only ignore .conll for reddit data
+                            # if'cat' in data[0][0]['raw']['conll_m']:
+                            if 'reddit' not in dname and 'cat' in data[0][0]['raw']['conll_m']:
                                 cats = []
                                 for doc in data:
                                     cats += [m['raw']['conll_m']['cat'] for m in doc]
+
                             if cats is None:
                                 f1 = D.eval(org_dev_datasets[di][1], predictions)
                             else:

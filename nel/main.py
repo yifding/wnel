@@ -223,7 +223,14 @@ if __name__ == "__main__":
                         ['aquaint', conll.aquaint, None],
                         ['ace2004', conll.ace2004, None],
                         ['clueweb', conll.clueweb, None],
-                        ['wikipedia', conll.wikipedia, None]]
+                        ['wikipedia', conll.wikipedia, None],
+
+                        # **YD** add reddit dataset
+                        ['reddit2020gold', conll.reddit2020gold, None],
+                        ['reddit2020silver', conll.reddit2020silver, None],
+                        ['reddit2020g_s', conll.reddit2020g_s, None],
+
+                        ]
 
         for dataset in all_datasets:
             name, data = dataset[0], dataset[1]
